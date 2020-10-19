@@ -57,10 +57,11 @@ type WebhookMessage struct {
 
 // EventMeta containes the meta data about the event occurred
 type EventMeta struct {
-	Kind      string `json:"kind"`
-	Name      string `json:"name"`
-	Namespace string `json:"namespace"`
-	Reason    string `json:"reason"`
+	Kind      string            `json:"kind"`
+	Name      string            `json:"name"`
+	Namespace string            `json:"namespace"`
+	Reason    string            `json:"reason"`
+	Labels    map[string]string `json:"labels"`
 }
 
 // Init prepares Webhook configuration
@@ -104,6 +105,7 @@ func prepareWebhookMessage(e event.Event, m *Webhook) *WebhookMessage {
 			Name:      e.Name,
 			Namespace: e.Namespace,
 			Reason:    e.Reason,
+			Labels:    e.Labels,
 		},
 		Text: e.Message(),
 		Time: time.Now(),

@@ -682,6 +682,7 @@ func (c *Controller) processItem(newEvent Event) error {
 				Kind:      newEvent.resourceType,
 				Status:    status,
 				Reason:    "Created",
+				Labels:    objectMeta.Labels,
 			}
 			c.eventHandler.Handle(kbEvent)
 			return nil
@@ -702,6 +703,7 @@ func (c *Controller) processItem(newEvent Event) error {
 			Kind:      newEvent.resourceType,
 			Status:    status,
 			Reason:    "Updated",
+			Labels:    objectMeta.Labels,
 		}
 		c.eventHandler.Handle(kbEvent)
 		return nil
@@ -712,6 +714,7 @@ func (c *Controller) processItem(newEvent Event) error {
 			Kind:      newEvent.resourceType,
 			Status:    "Danger",
 			Reason:    "Deleted",
+			Labels:    objectMeta.Labels,
 		}
 		c.eventHandler.Handle(kbEvent)
 		return nil
