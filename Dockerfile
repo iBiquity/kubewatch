@@ -11,8 +11,9 @@ ADD . "$GOPATH/src/github.com/bitnami-labs/kubewatch"
 RUN cd "$GOPATH/src/github.com/bitnami-labs/kubewatch" && \
     CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a --installsuffix cgo --ldflags="-s" -o /kubewatch
 
-FROM bitnami/minideb:stretch
-RUN install_packages ca-certificates
+FROM debian:bookworm
+RUN apt-get update && \
+  apt-get install -y ca-certificates
 
 COPY --from=builder /kubewatch /bin/kubewatch
 
