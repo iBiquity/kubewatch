@@ -35,6 +35,7 @@ type Event struct {
 	Reason    string
 	Status    string
 	Name      string
+	Labels    map[string]string
 }
 
 var m = map[string]string{
@@ -52,12 +53,15 @@ func New(obj interface{}, action string) Event {
 	name = objectMeta.Name
 	reason = action
 	status = m[action]
+	labels := objectMeta.Labels
 
 	switch object := obj.(type) {
 	case *ext_v1beta1.DaemonSet:
 		kind = "daemon set"
 	case *apps_v1.Deployment:
 		kind = "deployment"
+	case *apps_v1.StatefulSet:
+		kind = "stateful set"
 	case *batch_v1.Job:
 		kind = "job"
 	case *api_v1.Namespace:
@@ -100,6 +104,7 @@ func New(obj interface{}, action string) Event {
 		Reason:    reason,
 		Status:    status,
 		Name:      name,
+		Labels:    labels,
 	}
 	return kbEvent
 }
